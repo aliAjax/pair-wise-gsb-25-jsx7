@@ -1,4 +1,6 @@
 import "./styles.css";
+import { useState } from "react";
+import AfterSalesDesk from "./afterSales/AfterSalesDesk";
 
 const project = {
   "id": "hxwl-11",
@@ -72,7 +74,7 @@ function MetricCard({ label, value, index }: { label: string; value: string; ind
   );
 }
 
-function App() {
+function OptometryBoard() {
   const values = project.metrics.map((metric: string, index: number) => {
     const base = [84, 12, 31, 7][index % 4];
     return String(base + index * 3);
@@ -154,6 +156,37 @@ function App() {
         </div>
       </section>
     </main>
+  );
+}
+
+type Tab = "optometry" | "aftersales";
+
+function App() {
+  const [tab, setTab] = useState<Tab>("aftersales");
+
+  return (
+    <>
+      <nav className="top-nav">
+        <div className="top-nav-inner">
+          <span className="top-nav-brand">hxwl-11 门店工作台</span>
+          <div className="top-nav-tabs">
+            <button
+              className={tab === "optometry" ? "nav-active" : ""}
+              onClick={() => setTab("optometry")}
+            >
+              验光看板
+            </button>
+            <button
+              className={tab === "aftersales" ? "nav-active" : ""}
+              onClick={() => setTab("aftersales")}
+            >
+              售后调整台
+            </button>
+          </div>
+        </div>
+      </nav>
+      {tab === "optometry" ? <OptometryBoard /> : <AfterSalesDesk />}
+    </>
   );
 }
 
